@@ -9,14 +9,6 @@ import requests
 from statsd.defaults.env import statsd
 import time
 
-
-try:
-    SERVICE_NAME = sys.argv[1]
-except IndexError:
-    print("Usage:\n\n {} [service_name]\n".format(sys.argv[0]))
-    exit(1)
-
-
 STATSD_DELAY = int(os.environ.get("STATSD_DELAY", 10))
 FPM_STATUS_URL = os.environ.get("FPM_STATUS_URL","http://localhost/status")
 
