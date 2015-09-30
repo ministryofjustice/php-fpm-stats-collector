@@ -2,13 +2,13 @@
 import os
 import sys
 import socket
-from time import sleep, time
+import time
 
 import schedule
 import requests
 from statsd.defaults.env import statsd
-import time
 
+HOST = socket.gethostname()
 STATSD_DELAY = int(os.environ.get("STATSD_DELAY", 10))
 FPM_STATUS_URL = os.environ.get("FPM_STATUS_URL","http://localhost/status")
 
@@ -45,7 +45,7 @@ def get_fpm_stats(stats_url):
             try:
                 metric_name, metric_value = line.strip().split(":")
                 if metric_name in METRICS_MAPPING.keys():
-                    data.append((METRICS_MAPPING[metric_name],int(metric_value)))
+                    data.append(("{}.php-fpm.{}".format(HOST, METRICS_MAPPING[metric_name]),int(metric_value)))
             except ValueError:
                 pass
     return data
