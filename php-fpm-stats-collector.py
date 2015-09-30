@@ -53,10 +53,8 @@ def get_fpm_stats(stats_url):
 
 def main():
     def report_stats():
-        print("reporting")
         with statsd.pipeline() as pipe:
             for stat, value in get_fpm_stats(FPM_STATUS_URL):
-                print(stat, value)
                 pipe.gauge(stat, value)
 
 
